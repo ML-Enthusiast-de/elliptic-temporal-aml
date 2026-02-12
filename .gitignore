@@ -1,0 +1,78 @@
+# ---------------------------------
+# Python / caches
+# ---------------------------------
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+build/
+dist/
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ---------------------------------
+# IDE / OS
+# ---------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---------------------------------
+# Logs / temp
+# ---------------------------------
+*.log
+*.tmp
+*.swp
+
+# ---------------------------------
+# Testing / coverage
+# ---------------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Lint/type caches
+.ruff_cache/
+.mypy_cache/
+
+# ---------------------------------
+# Data (DO NOT COMMIT)
+# ---------------------------------
+data/raw/**
+data/interim/**
+data/processed/**
+
+# keep folder structure if you use .gitkeep
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+
+# ---------------------------------
+# ML / experiment artifacts
+# ---------------------------------
+models/**
+checkpoints/**
+wandb/**
+mlruns/**
+lightning_logs/**
+tensorboard/**
+
+# If you decide to save figures/metrics, keep them (don’t ignore reports/)
+# reports/**
+
+# ---------------------------------
+# Secrets
+# ---------------------------------
+.env
+.env.*
+*.pem
+*.key

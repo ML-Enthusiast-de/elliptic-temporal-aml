@@ -5,9 +5,17 @@ from pathlib import Path
 
 import pandas as pd
 
+from pathlib import Path
+
+def find_repo_root(start: Path) -> Path:
+    for p in [start] + list(start.parents):
+        if (p / ".git").exists():
+            return p
+    raise FileNotFoundError("Could not find repo root (no .git folder found).")
+
 
 def repo_root() -> Path:
-    return Path(__file__).resolve().parents[2]
+    return find_repo_root(Path(__file__).resolve())
 
 
 def main() -> None:

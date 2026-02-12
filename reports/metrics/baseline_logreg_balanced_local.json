@@ -1,0 +1,44 @@
+{
+  "model_name": "logreg_balanced",
+  "feature_set": "local",
+  "n_train": 29894,
+  "n_test": 16670,
+  "n_features": 94,
+  "train_pos_rate": 0.11580919248009634,
+  "test_pos_rate": 0.06496700659868027,
+  "pr_auc": 0.2517809521548363,
+  "roc_auc": 0.8661387152835475,
+  "best_f1": {
+    "threshold": 0.8667180846137135,
+    "precision": 0.376629889669007,
+    "recall": 0.6934441366574331,
+    "f1": 0.4881377965546299
+  },
+  "target_precision": 0.8,
+  "threshold_at_target_precision": {
+    "threshold": 0.9999999016385267,
+    "precision": 1.0,
+    "recall": 0.0009233610341643582
+  },
+  "eval_at_best_f1": {
+    "threshold": 0.8667180846137135,
+    "precision": 0.376629889669007,
+    "recall": 0.6934441366574331,
+    "f1": 0.4881377965550861,
+    "tp": 751,
+    "fp": 1243,
+    "tn": 14344,
+    "fn": 332
+  },
+  "eval_at_target_precision": {
+    "threshold": 0.9999999016385267,
+    "precision": 1.0,
+    "recall": 0.0009233610341643582,
+    "f1": 0.0018450184501845018,
+    "tp": 1,
+    "fp": 0,
+    "tn": 15587,
+    "fn": 1082
+  },
+  "pr_auc_by_time_step_path": "reports\\metrics\\pr_auc_by_time_step_logreg_balanced_local.csv"
+}

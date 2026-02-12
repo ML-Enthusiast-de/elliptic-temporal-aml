@@ -1,0 +1,44 @@
+{
+  "model_name": "logreg_balanced",
+  "feature_set": "all",
+  "n_train": 29894,
+  "n_test": 16670,
+  "n_features": 165,
+  "train_pos_rate": 0.11580919248009634,
+  "test_pos_rate": 0.06496700659868027,
+  "pr_auc": 0.29070002435636216,
+  "roc_auc": 0.8814532862666232,
+  "best_f1": {
+    "threshold": 0.9418007318073741,
+    "precision": 0.36530238240684176,
+    "recall": 0.5521698984302862,
+    "f1": 0.4397058823524619
+  },
+  "target_precision": 0.8,
+  "threshold_at_target_precision": {
+    "threshold": 1.0,
+    "precision": 1.0,
+    "recall": 0.0018467220683287165
+  },
+  "eval_at_best_f1": {
+    "threshold": 0.9418007318073741,
+    "precision": 0.36530238240684176,
+    "recall": 0.5521698984302862,
+    "f1": 0.43970588235294117,
+    "tp": 598,
+    "fp": 1039,
+    "tn": 14548,
+    "fn": 485
+  },
+  "eval_at_target_precision": {
+    "threshold": 1.0,
+    "precision": 1.0,
+    "recall": 0.0018467220683287165,
+    "f1": 0.003686635944700461,
+    "tp": 2,
+    "fp": 0,
+    "tn": 15587,
+    "fn": 1081
+  },
+  "pr_auc_by_time_step_path": "reports\\metrics\\pr_auc_by_time_step_logreg_balanced_all.csv"
+}

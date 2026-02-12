@@ -17,8 +17,12 @@ FILES = [
 
 
 def repo_root() -> Path:
-    # src/data/download.py -> repo root is 2 parents up from src/
-    return Path(__file__).resolve().parents[2]
+    p = Path(__file__).resolve()
+    for parent in [p] + list(p.parents):
+        if (parent / ".git").exists():
+            return parent
+    raise FileNotFoundError("Could not find repo root (no .git directory found).")
+
 
 
 def download_and_extract(url: str, out_dir: Path) -> None:
