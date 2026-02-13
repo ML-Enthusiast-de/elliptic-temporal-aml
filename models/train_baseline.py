@@ -24,6 +24,8 @@ from sklearn.metrics import (
 )
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
+from xgboost import XGBClassifier
+
 
 
 # -----------------------------
@@ -241,6 +243,29 @@ def run_histgb(X_train, y_train, X_test) -> np.ndarray:
     model.fit(X_train, y_train, sample_weight=sample_weight)
     return model.predict_proba(X_test)[:, 1]
 
+def run_xgboost(X_train, y_train, X_test) -> np.ndarray:
+    pos = int((y_train == 1).sum())
+    neg = int((y_train == 0).sum())
+    scale_pos_weight = neg / max(pos, 1)
+
+    model = XGBClassifier(
+        n_estimators=800,
+        learning_rate=0.05,
+        max_depth=4,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        reg_lambda=1.0,
+        min_child_weight=1.0,
+        objective="binary:logistic",
+        eval_metric="aucpr",
+        tree_method="hist",
+        n_jobs=-1,
+        random_state=42,
+        scale_pos_weight=scale_pos_weight,  # ✅ put it here
+    )
+
+    model.fit(X_train, y_train)            # ✅ no scale_pos_weight here
+    return model.predict_proba(X_test)[:, 1]
 
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -285,7 +310,12 @@ def main() -> None:
         print(f"Train: {len(train_df)} | Test: {len(test_df)}")
         print(f"Positive rate train={train_pos:.4f} | test={test_pos:.4f}")
 
-        for model_name, runner in [("logreg_balanced", run_logreg), ("histgb_weighted", run_histgb)]:
+        for model_name, runner in [
+            ("logreg_balanced", run_logreg),
+            ("histgb_weighted", run_histgb),
+            ("xgboost", run_xgboost),
+        ]:
+
             y_prob = runner(X_train, y_train, X_test)
 
             pr_auc = float(average_precision_score(y_test, y_prob))
