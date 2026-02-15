@@ -5,19 +5,19 @@
   "hidden_channels": 128,
   "num_layers": 2,
   "num_neighbors": [
-    15,
-    10
+    25,
+    15
   ],
   "batch_size": 1024,
-  "epochs": 50,
+  "epochs": 12,
   "lr": 0.001,
-  "pr_auc": 0.48287548914664113,
-  "roc_auc": 0.9058187739729836,
+  "pr_auc": 0.701166162503871,
+  "roc_auc": 0.9006228762385208,
   "target_precision": 0.8,
   "at_target_precision": {
-    "threshold": 1.0,
-    "precision": 1.0,
-    "recall": 0.0
+    "threshold": 0.8896487355232239,
+    "precision": 0.8004722550177096,
+    "recall": 0.6260387811634349
   },
   "train_pos_rate": 0.11580919248009634,
   "test_pos_rate": 0.06496700659868027
