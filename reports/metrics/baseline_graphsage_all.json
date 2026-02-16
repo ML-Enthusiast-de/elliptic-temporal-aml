@@ -1,7 +1,7 @@
 {
   "model": "graphsage_pyg",
-  "feature_set": "local",
-  "n_features": 94,
+  "feature_set": "all",
+  "n_features": 165,
   "hidden_channels": 128,
   "num_layers": 2,
   "num_neighbors": [
@@ -11,13 +11,13 @@
   "batch_size": 1024,
   "epochs": 12,
   "lr": 0.001,
-  "pr_auc": 0.6938091929962145,
-  "roc_auc": 0.8988974167631821,
+  "pr_auc": 0.6315618286349499,
+  "roc_auc": 0.9034811960934608,
   "target_precision": 0.8,
   "at_target_precision": {
-    "threshold": 0.8503223061561584,
-    "precision": 0.8,
-    "recall": 0.5835641735918744
+    "threshold": 0.8676409721374512,
+    "precision": 0.800599700149925,
+    "recall": 0.4930747922437673
   },
   "train_pos_rate": 0.11580919248009634,
   "test_pos_rate": 0.06496700659868027
