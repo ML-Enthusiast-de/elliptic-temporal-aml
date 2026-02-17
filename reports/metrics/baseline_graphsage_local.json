@@ -9,15 +9,15 @@
     15
   ],
   "batch_size": 1024,
-  "epochs": 12,
+  "epochs": 24,
   "lr": 0.001,
-  "pr_auc": 0.6938091929962145,
-  "roc_auc": 0.8988974167631821,
+  "pr_auc": 0.6458897815484468,
+  "roc_auc": 0.9040297508619448,
   "target_precision": 0.8,
   "at_target_precision": {
-    "threshold": 0.8503223061561584,
+    "threshold": 0.9309301376342773,
     "precision": 0.8,
-    "recall": 0.5835641735918744
+    "recall": 0.5318559556786704
   },
   "train_pos_rate": 0.11580919248009634,
   "test_pos_rate": 0.06496700659868027
