@@ -5,20 +5,27 @@
   "hidden_channels": 128,
   "num_layers": 2,
   "num_neighbors": [
-    25,
-    15
+    15,
+    10
   ],
   "batch_size": 1024,
-  "epochs": 24,
+  "epochs": 12,
   "lr": 0.001,
-  "pr_auc": 0.6458897815484468,
-  "roc_auc": 0.9040297508619448,
+  "undirected": false,
+  "normalize": false,
+  "pretrained": "",
+  "used_pretrained_scaler": false,
+  "train_pos_rate": 0.10882832341457867,
+  "val_pos_rate": 0.1682322801024765,
+  "test_pos_rate": 0.06496700659868027,
+  "val_pr_auc_best": 0.8117096375258362,
+  "test_pr_auc": 0.6110935364431604,
+  "test_roc_auc": 0.8793087688612352,
   "target_precision": 0.8,
   "at_target_precision": {
-    "threshold": 0.9309301376342773,
+    "threshold": 0.93332839012146,
     "precision": 0.8,
-    "recall": 0.5318559556786704
+    "recall": 0.39519852262234534
   },
-  "train_pos_rate": 0.11580919248009634,
-  "test_pos_rate": 0.06496700659868027
+  "eval_mode": "sampled"
 }
