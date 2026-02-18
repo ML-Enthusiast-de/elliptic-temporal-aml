@@ -9,23 +9,23 @@
     10
   ],
   "batch_size": 1024,
-  "epochs": 12,
+  "epochs": 30,
   "lr": 0.001,
-  "undirected": false,
-  "normalize": false,
+  "undirected": true,
+  "normalize": true,
   "pretrained": "",
   "used_pretrained_scaler": false,
   "train_pos_rate": 0.10882832341457867,
   "val_pos_rate": 0.1682322801024765,
   "test_pos_rate": 0.06496700659868027,
-  "val_pr_auc_best": 0.8117096375258362,
-  "test_pr_auc": 0.6110935364431604,
-  "test_roc_auc": 0.8793087688612352,
+  "val_pr_auc_best": 0.9086067742712344,
+  "test_pr_auc": 0.47819783795635723,
+  "test_roc_auc": 0.8757322628577298,
   "target_precision": 0.8,
   "at_target_precision": {
-    "threshold": 0.93332839012146,
-    "precision": 0.8,
-    "recall": 0.39519852262234534
+    "threshold": 1.0,
+    "precision": 1.0,
+    "recall": 0.0
   },
-  "eval_mode": "sampled"
+  "eval_mode": "full"
 }
