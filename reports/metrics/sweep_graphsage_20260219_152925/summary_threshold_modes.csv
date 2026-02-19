@@ -1,0 +1,3 @@
+run,threshold_mode,selected_threshold,test_precision_at_threshold,test_recall_at_threshold,test_pr_auc,test_roc_auc
+best_recent_12_topk,topk,0.9788161516189575,0.8905472636815921,0.16528162511542013,0.6195367112208997,0.8847580029312728
+best_recent_12_alert_rate,alert_rate,0.988359808921814,0.8,0.029547553093259463,0.6195367112208997,0.8847580029312728
