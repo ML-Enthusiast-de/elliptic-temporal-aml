@@ -1,54 +1,113 @@
-# elliptic-temporal-aml
+﻿# Elliptic Temporal AML
 
-# Elliptic Temporal AML — Illicit Transaction Detection on a Crypto Transaction Graph
+Illicit transaction detection on the Elliptic Bitcoin graph using time-aware tabular and graph ML pipelines.
 
-Research-grade pipeline for detecting illicit cryptocurrency transactions using the Elliptic dataset.
-The project progresses from strong tabular baselines to temporal graph models and (optional) self-supervised pretraining.
+> Research/education only. Not financial advice. Not a compliance product.
 
-> **Disclaimer:** For research/education only. Not financial advice. Not a compliance product.
-
----
-
-## Why this project
-Financial crime is rarely i.i.d.: behavior unfolds over time and across networks.
-Crypto transaction graphs contain strong relational/temporal signals (bursts, neighborhood effects, flows, motifs).
-This repo demonstrates:
-- rigorous time-aware validation (no leakage)
-- graph + temporal modeling
-- practical decisioning (thresholds, operating points)
-- reproducible, reviewable ML engineering
-
----
+## What this repo does
+- Builds leakage-aware train/validation/test splits over time.
+- Trains strong tabular baselines.
+- Trains graph models with temporal validation and threshold tuning.
+- Tracks stability by `time_step` (PR-AUC drift plots/CSVs).
 
 ## Dataset
-We use the **Elliptic Bitcoin Dataset** by :contentReference[oaicite:0]{index=0} (public research dataset):
-- nodes = transactions
-- edges = money flow between transactions
-- labels = `licit` / `illicit` / `unknown`
-- features = anonymized transaction features + aggregated neighborhood features
-- time steps = discrete “time slices” for temporal evaluation
+This project uses the Elliptic Bitcoin dataset.
 
-**You must download the dataset yourself** (license/terms).
-Place raw files under: `data/raw/elliptic/`
+Expected raw files in `data/raw/elliptic/`:
+- `elliptic_txs_features.csv`
+- `elliptic_txs_edgelist.csv`
+- `elliptic_txs_classes.csv`
 
-Expected raw files:
-- `data/raw/elliptic/elliptic_txs_features.csv`
-- `data/raw/elliptic/elliptic_txs_edgelist.csv`
-- `data/raw/elliptic/elliptic_txs_classes.csv`
+Processed artifacts used by training scripts:
+- `data/processed/nodes.parquet`
+- `data/processed/edges.parquet`
 
----
+Current processed schema (observed):
+- `nodes.parquet`: ~203k rows, columns include `txId`, `time_step`, numeric features, `y`, `split`
+- `edges.parquet`: columns `src`, `dst`
 
 ## Project structure
 ```text
 elliptic-temporal-aml/
   data/
-    raw/elliptic/          # NOT committed (see .gitignore)
-    processed/             # NOT committed
+    raw/elliptic/
+    processed/
   models/
-    train_baseline.py      # tabular baselines + ablation + drift plots
-    train_graphsage_pyg.py # GNN baseline (PyG GraphSAGE) + drift plots
+    pretrain_mfm_pyg.py
+    train_baseline.py
+    train_graphsage_pyg.py
+    train_graphsage_pyg_temporal_causal.py
+    train_tgat_pyg.py
   reports/
-    metrics/               # JSON/CSV metrics (small, committed)
-    figures/               # PR curves + drift plots (small, committed)
+    metrics/
+    figures/
+  checkpoints/
   README.md
-  .gitignore
+```
+
+## Model scripts
+`models/train_baseline.py`
+- Tabular baselines and ablation outputs.
+
+`models/pretrain_mfm_pyg.py`
+- Self-supervised masked feature modeling (MFM) pretraining with GraphSAGE encoder.
+- Saves encoder checkpoint under `checkpoints/`.
+
+`models/train_graphsage_pyg.py`
+- Supervised GraphSAGE with temporal validation windows.
+- Supports threshold modes: `target_precision`, `topk`, `alert_rate`.
+
+`models/train_graphsage_pyg_temporal_causal.py`
+- GraphSAGE variant with optional causal-edge filtering and optional `time_step` feature.
+- Writes isolated temporal-causal metric/figure files.
+
+`models/train_tgat_pyg.py`
+- Transformer-based graph model (`TransformerConv`) with temporal edge features:
+  - `dt_norm`, `log_dt_norm`, `same_step`, `src_t_norm`, `dst_t_norm`
+- Uses the same split/eval protocol so comparisons are direct.
+
+## Quick start
+Run with the environment that has PyG deps (`torch-sparse`/`pyg-lib`) installed.
+
+GraphSAGE (temporal-aware split):
+```bash
+python models/train_graphsage_pyg.py \
+  --feature_set local \
+  --val_steps 3 --val_windows 3 \
+  --train_recent_steps 12 \
+  --threshold_mode target_precision --target_precision 0.8
+```
+
+GraphSAGE temporal-causal:
+```bash
+python models/train_graphsage_pyg_temporal_causal.py \
+  --feature_set local \
+  --val_steps 3 --val_windows 3 \
+  --train_recent_steps 12 \
+  --causal_edges --add_time_feature
+```
+
+TGAT:
+```bash
+python models/train_tgat_pyg.py \
+  --feature_set local \
+  --val_steps 3 --val_windows 3 \
+  --train_recent_steps 12 \
+  --threshold_mode target_precision --target_precision 0.8
+```
+
+## Outputs
+Main outputs are written to:
+- `reports/metrics/*.json` (run summary metrics)
+- `reports/metrics/*by_time_step*.csv` (per-time-step PR-AUC)
+- `reports/figures/*.png` (PR curves and drift plots)
+
+Examples:
+- `reports/metrics/baseline_graphsage_local.json`
+- `reports/metrics/baseline_graphsage_temporal_causal_local.json`
+- `reports/metrics/baseline_tgat_local.json`
+
+## Evaluation philosophy
+- Validate on recent temporal windows, not random splits.
+- Tune thresholds on validation, then evaluate fixed threshold on test.
+- Report both aggregate metrics (`PR-AUC`, `ROC-AUC`) and time-sliced stability.
